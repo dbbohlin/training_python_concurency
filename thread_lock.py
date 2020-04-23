@@ -11,7 +11,7 @@ from threading import Lock
 
 logging.basicConfig(level=logging.DEBUG,
                     format='(%(threadName)-9s) %(message)s',)
-logger = logging.getLogger('thread join')
+logger = logging.getLogger('logger')
 
 
 class Increment():
@@ -32,47 +32,47 @@ class LockingIncrement():
             self.x += value
 
 
-_increment = Increment()
-_locking_increment = LockingIncrement()
+increment_obj = Increment()
+locking_increment_obj = LockingIncrement()
 
 
 def incrementer(increment=100000):
     for i in range(increment):
-        _increment.increment()
+        increment_obj.increment()
 
 
 def incrementer_with_lock(increment=100000):
     for i in range(increment):
-        _locking_increment.increment()
+        locking_increment_obj.increment()
 
 
 def testing_thread_without_lock():
-    threads = []
+    _threads = []
     for i in range(2):
-        new_thread = threading.Thread(name=f'thread{i}', target=incrementer, args=(100000,))
-        new_thread.start()
-        threads.append(new_thread)
+        _new_thread = threading.Thread(name=f'thread{i}', target=incrementer, args=(100000,))
+        _new_thread.start()
+        _threads.append(_new_thread)
 
-    for thread in threads:
-        thread.join()
-    print(f'Incrementing without locks, Incrementer value: {_increment.x}')
+    for _thread in _threads:
+        _thread.join()
+    print(f'Incrementing without locks, Incrementer value: {increment_obj.x}')
 
 
 def testing_thread_with_lock():
-    threads = []
+    _threads = []
     for i in range(2):
-        new_thread = threading.Thread(name=f'lock_thread{i}', target=incrementer_with_lock, args=(100000,))
-        new_thread.start()
-        threads.append(new_thread)
+        _new_thread = threading.Thread(name=f'lock_thread{i}', target=incrementer_with_lock, args=(100000,))
+        _new_thread.start()
+        _threads.append(_new_thread)
 
-    for thread in threads:
-        thread.join()
-    print(f'Incrementing with locks, Incrementer value: {_locking_increment.x}')
+    for _thread in _threads:
+        _thread.join()
+    print(f'Incrementing with locks, Incrementer value: {locking_increment_obj.x}')
 
 
 if __name__ == "__main__":
     for i in range(100000):
-        _increment.increment()
-    print(f'Incrementing by itself Incrementer value: {_increment.x}')
+        increment_obj.increment()
+    print(f'Incrementing by itself Incrementer value: {increment_obj.x}')
     testing_thread_without_lock()
     testing_thread_with_lock()

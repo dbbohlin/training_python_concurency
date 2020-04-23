@@ -10,7 +10,7 @@ import logging, threading, time
 
 logging.basicConfig(level=logging.DEBUG,
                     format='(%(threadName)-9s) %(message)s',)
-logger = logging.getLogger('thread join')
+logger = logging.getLogger('logger')
 
 
 def repeated_task(interations=10000000):
@@ -22,32 +22,28 @@ def repeated_task(interations=10000000):
 
 
 def testing_thread_join(interations=10000000):
-    thread_1 = threading.Thread(name='join thread 1', target=repeated_task, args=(interations,))
-    thread_2 = threading.Thread(name='join thread 2', target=repeated_task, args=(interations,))
-    # thread_1.setDaemon(True)
-    # thread_2.setDaemon(True)
-    thread_1.start()
-    thread_2.start()
-    thread_1.join()
-    thread_2.join()
+    _thread_1 = threading.Thread(name='join thread 1', target=repeated_task, args=(interations,))
+    _thread_2 = threading.Thread(name='join thread 2', target=repeated_task, args=(interations,))
+    _thread_1.start()
+    _thread_2.start()
+    _thread_1.join()
+    _thread_2.join()
 
 
 def testing_thread_no_join(interations=10000000):
-    thread_1 = threading.Thread(name='no join thread 1', target=repeated_task, args=(interations,))
-    thread_2 = threading.Thread(name='no join thread 2', target=repeated_task, args=(interations,))
-    # thread_1.setDaemon(True)
-    # thread_2.setDaemon(True)
-    thread_1.start()
-    thread_2.start()
+    _thread_1 = threading.Thread(name='no join thread 1', target=repeated_task, args=(interations,))
+    _thread_2 = threading.Thread(name='no join thread 2', target=repeated_task, args=(interations,))
+    _thread_1.start()
+    _thread_2.start()
 
 
 
 if __name__ == "__main__":
-    start = time.time()
+    _start = time.time()
     testing_thread_no_join()
-    end_no_join = start - time.time()
-    print(f'Thread no join took {end_no_join} seconds')
-    start = time.time()
+    _end = _start - time.time()
+    print(f'Thread no join took {_end} seconds')
+    _start = time.time()
     testing_thread_join()
-    end_join = start - time.time()
-    print(f'Thread with join took {end_join} seconds')
+    _end = _start - time.time()
+    print(f'Thread with join took {_end} seconds')

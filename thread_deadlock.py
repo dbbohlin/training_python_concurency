@@ -11,7 +11,7 @@ from threading import Lock
 
 logging.basicConfig(level=logging.DEBUG,
                     format='(%(threadName)-9s) %(message)s',)
-logger = logging.getLogger('thread join')
+logger = logging.getLogger('logger')
 
 
 class DeadLockIncrement():
@@ -36,7 +36,7 @@ class DeadLockIncrement():
         return self.x
 
 
-
+deadlock = DeadLockIncrement()
 
 if __name__ == "__main__":
     deadlock.increment_no_deadlock()

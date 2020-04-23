@@ -10,7 +10,7 @@ import logging, threading, time
 
 logging.basicConfig(level=logging.DEBUG,
                     format='(%(threadName)-9s) %(message)s',)
-logger = logging.getLogger('thread join')
+logger = logging.getLogger('logger')
 
 
 def repeated_task(interations=10000000):
@@ -22,20 +22,20 @@ def repeated_task(interations=10000000):
 
 
 def testing_thread_daemon():
-    thread_1 = threading.Thread(name='join thread 1', target=repeated_task, args=(1000,))
-    thread_2 = threading.Thread(name='join thread 2', target=repeated_task, args=(100000,))
-    daemon_thread = threading.Thread(name='daemon thread', target=repeated_task, args=(10000000,))
-    daemon_thread.setDaemon(True)
-    thread_1.start()
-    thread_2.start()
-    daemon_thread.start()
-    thread_1.join()
-    thread_2.join()
+    _thread_1 = threading.Thread(name='join thread 1', target=repeated_task, args=(1000,))
+    _thread_2 = threading.Thread(name='join thread 2', target=repeated_task, args=(100000,))
+    _daemon_thread = threading.Thread(name='daemon thread', target=repeated_task, args=(10000000,))
+    _daemon_thread.setDaemon(True)
+    _thread_1.start()
+    _thread_2.start()
+    _daemon_thread.start()
+    _thread_1.join()
+    _thread_2.join()
     # daemon_thread.join()
 
 
 if __name__ == "__main__":
-    start = time.time()
+    _start = time.time()
     testing_thread_daemon()
-    end_join = start - time.time()
-    print(f'Thread with join took {end_join} seconds')
+    _end = _start - time.time()
+    print(f'Thread with join took {_end} seconds')

@@ -10,7 +10,7 @@ import logging, asyncio, time, threading
 
 logging.basicConfig(level=logging.DEBUG,
                     format='(%(threadName)-9s) %(message)s',)
-logger = logging.getLogger('thread join')
+logger = logging.getLogger('logger')
 
 
 async def repeated_task(interations=100, delay=1):
@@ -39,22 +39,22 @@ async def testing_asyncio():
 
 def testing_thread():
     logger.debug(f'thread function started')
-    threads = []
+    _threads = []
     for i in range(5):
-        thread = threading.Thread(name=f'thread_{i}', target=repeated_thread, args=[i*200, i])
-        threads.append(thread)
-        thread.start()
-    for thread in threads:
-        thread.join()
+        _thread = threading.Thread(name=f'thread_{i}', target=repeated_thread, args=[i*200, i])
+        _threads.append(_thread)
+        _thread.start()
+    for _thread in _threads:
+        _thread.join()
     logger.debug(f'thread function ended')
 
 
 if __name__ == '__main__':
-    start = time.time()
+    _start = time.time()
     asyncio.run(testing_asyncio()) # Event Loop
-    end_asyncio = start - time.time()
-    print(f'Running asyncio:  {end_asyncio} seconds')
-    start = time.time()
+    _end = _start - time.time()
+    print(f'Running asyncio:  {_end} seconds')
+    _start = time.time()
     testing_thread()
-    end_thread = start - time.time()
-    print(f'Running thread:  {end_thread} seconds')
+    _end = _start - time.time()
+    print(f'Running thread:  {_end} seconds')

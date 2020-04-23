@@ -6,13 +6,13 @@
 
 """
 
-import logging, threading, time
+import logging, time
 import concurrent.futures as futures
 from concurrent.futures import ThreadPoolExecutor
 
 logging.basicConfig(level=logging.DEBUG,
-                    format='(%(threadName)-9s) %(message)s',)
-logger = logging.getLogger('thread join')
+                    format='(%(threadName)-9s) %(message)s', )
+logger = logging.getLogger('logger')
 
 
 def repeated_task(interations=1000):
@@ -21,51 +21,51 @@ def repeated_task(interations=1000):
     while x < interations:
         x += 1
     logger.debug(f'Exiting, x = {x}')
-    return x/100
+    return x / 100
 
 
 def testing_thread_pool():
-    executer = ThreadPoolExecutor(max_workers=3)
-    future_tasks = executer.submit(repeated_task, (10000000))
-    print(f'Task complete: {future_tasks.done()}')
+    _executer = ThreadPoolExecutor(max_workers=3)
+    _future_tasks = _executer.submit(repeated_task, (10000000))
+    print(f'Task complete: {_future_tasks.done()}')
     time.sleep(2)
-    print(f'Task complete again: {future_tasks.done()}')
-    print(f'Tasks result: {future_tasks.result()}')
+    print(f'Task complete again: {_future_tasks.done()}')
+    print(f'Tasks result: {_future_tasks.result()}')
 
 
 def testing_thread_pool_with_values():
-    interations = [1000,10001,100002,1000003, 1000004]
+    _interations = [1000, 10001, 100002, 1000003, 1000004]
     with ThreadPoolExecutor(max_workers=3) as executer:
-        future_tasks = {executer.submit(repeated_task, interation):
-                            interation for interation in interations}
-        for future in futures.as_completed(future_tasks):
-            interation = future_tasks[future]
+        _future_tasks = {executer.submit(repeated_task, interation):
+                             interation for interation in _interations}
+        for _future in futures.as_completed(_future_tasks):
+            _interation = _future_tasks[_future]
             try:
-                data = future.result()
-            except Exception as exc:
-                print('%r generated an exception: %s' % (interation, exc))
+                data = _future.result()
+            except Exception as _exc:
+                print('%r generated an exception: %s' % (_interation, _exc))
             else:
-                print(f'future: {future}, interation: {interation}, result: {data}')
+                print(f'future: {_future}, interation: {_interation}, result: {data}')
 
 
 def testing_thread_map():
-    interations = [1000,10001,100002,1000003, 1000004]
+    _interations = [1000, 10001, 100002, 1000003, 1000004]
     with ThreadPoolExecutor(max_workers=3) as executer:
-        results = executer.map(repeated_task, interations)
-        for result in results:
-            print(f'Result: {result}')
+        _results = executer.map(repeated_task, _interations)
+        for _result in _results:
+            print(f'Result: {_result}')
 
 
 if __name__ == "__main__":
-    start = time.time()
+    _start = time.time()
     testing_thread_pool()
-    end_time = start - time.time()
-    print(f'Thread pool took {end_time} seconds\n\n')
-    start = time.time()
+    _end = _start - time.time()
+    print(f'Thread pool took {_end} seconds\n\n')
+    _start = time.time()
     testing_thread_pool_with_values()
-    end_time = start - time.time()
-    print(f'Completed threaded pools with values: {end_time}\n\n')
-    start = time.time()
+    _end = _start - time.time()
+    print(f'Completed threaded pools with values: {_end}\n\n')
+    _start = time.time()
     testing_thread_map()
-    end_time = start - time.time()
-    print(f'Completed threaded pools with map: {end_time}\n\n')
+    _end = _start - time.time()
+    print(f'Completed threaded pools with map: {_end}\n\n')
